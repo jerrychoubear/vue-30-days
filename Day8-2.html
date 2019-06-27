@@ -28,6 +28,12 @@
                         }
                     },
                     n: 0,
+                    f: 1,
+                    g: 1,
+                    fPlusg: 0,
+                    z: 1,
+                    zminus: 0,
+                    zplus: 0
                 }
             },
             watch: {
@@ -62,6 +68,29 @@
                         console.log('immediate triggered');
                     },
                     immediate: true
+                },
+                // function
+                fPlusgComputed: function (fPlusg) {
+                    this.fPlusg = fPlusg;
+                    console.log('fPlusgComputed triggered');
+                },
+                z: [
+                    {
+                        handler: function (newVal) {
+                            this.zminus = newVal - 1;
+                            console.log('z object triggered');
+                        }
+                    },
+                    function (newVal) {
+                        this.zplus = newVal + 1;
+                        console.log('z function triggered');
+                    },
+                    'bMethod'
+                ]
+            },
+            computed: {
+                fPlusgComputed() {
+                    return this.f + this.g;
                 }
             },
             methods: {
@@ -69,6 +98,11 @@
                     this.newA = newA;
                     this.oldA = oldA;
                     console.log('string triggered');
+                },
+                bMethod(newB, oldB) {
+                    this.newB = newB;
+                    this.oldB = oldB;
+                    console.log('bMethod triggered');
                 }
             }
         });
