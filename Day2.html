@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day2</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{message}}</p>
+        <!-- <button v-on:click="getRemoteMessage">Click</button> -->
+    </div>
+    <button onclick="getRemoteMessage2()">Click</button>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "This is local data.",
+            },
+            methods: {
+                getRemoteMessage() {
+                    Promise.resolve("Get remote data.")
+                        .then((res) => {
+                            this.message = res;
+                        });
+                },
+            },
+        });
+        function getRemoteMessage2() {
+            Promise.resolve("Get remote data.")
+                .then((res) => {
+                    console.log(res);
+                    vm.message = res;
+                });
+        }
+    </script>
+</body>
+
+</html>

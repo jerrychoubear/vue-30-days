@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day3</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        a.new: {{a}}<br>
+        a.olb: {{b}}<br>
+        <button @click="app_onclick">a += 1</button>
+    </div>
+    <div id="app2"></div>
+    <button onclick="app2_onclick()">a += 1</button>
+    <div id="app3"></div>
+    <button onclick="app3_onclick()">a += 1</button>
+    <script>
+        // 綁定元素:
+        // 1. 選項Options中有設置 template 時，使用 template 中的 html 取代原本元素上的配置
+        // 2. 選項Options中有設置 render 函式時，使用 render function 配置模板
+        // 3. 選項Options中沒有設置 template 屬性，也沒有設置 render 函式時，使用原本頁面上的元素配置
+        var vm = new Vue(
+            // Options
+            {
+                el: "#app",
+                data: {
+                    a: 1,
+                    b: '',
+                },
+                methods: {
+                    app_onclick() {                       
+                        this.a += 1;
+                    }
+                },
+            }
+        );
+        var vm2 = new Vue(
+            // Options
+            {
+                el: "#app2",
+                template: '<div class="template">template: {{a}}</div>',
+                data: {
+                    a: 1
+                },
+            }
+        );
+        var vm3 = new Vue(
+            // Options
+            {
+                el: "#app3",
+                render(h) {
+                    return h(
+                        'div',
+                        {
+                            'class': {
+                                render: true
+                            }
+                        },
+                        `render: ${this.a}`
+                    )
+                },
+                data: {
+                    a: 1
+                },
+            }
+        );
+        // Vue 實體會將選項定義的常用屬性提升到實體的最上層中，像是 data ，或是 computed 、 methods 等等，所以對 vm.a 做修改也會有一樣的效果。
+        var app2_onclick = function () {
+          vm2.a += 1;  
+        };
+        var app3_onclick = function () {
+          vm3.$data.a += 1;
+        };
+        // 在第一個參數中設定的資料變化時觸發第二個參數的函式，在這個例子中當 a 發生變化時，會將未修改時的 a 數值設給 b
+        vm.$watch('a', function (newValue, oldValue) {
+            this.b = oldValue;
+        })
+    </script>
+</body>
+
+</html>
