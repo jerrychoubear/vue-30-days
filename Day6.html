@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day6</title>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{a}}
+        <!-- under the #app -->
+        <button v-on:click="a++">+</button> <!-- inside of the button tag -->
+        {{html}}
+        <a v-html="html"></a>
+        <div v-if="condition">render</div>
+        <div v-if="!condition">never render</div>
+        <div v-bind:id="id">Bind Directives</div>
+        <button v-bind:disabled='isDisabled'>I am disabled</button>
+        <button :disabled='isDisabled'>I am disabled</button>
+        <div>
+          <span>{{b}}</span>
+          <button v-on:click.once='click'>b--</button>
+          <button @click.once='click'>b--</button>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                a: 1,
+                html: '<h1>I am header</h1>',
+                condition: true,
+                id: 'test',
+                isDisabled: ' ',
+                b: 10000,
+            },
+            methods: {
+                click() {
+                    this.b--;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
