@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day8-2 watch</title>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="#app"></div>
+    <script>
+        var vm = new Vue({
+            data() {
+                return {
+                    a: 0,
+                    newA: 0,
+                    oldA: 0,
+                    newB: 0,
+                    oldB: 0,
+                    newD: 0,
+                    oldD: 0,
+                    b: {
+                        c: {
+                            d: 2
+                        }
+                    },
+                    n: 0,
+                }
+            },
+            watch: {
+                // // basic
+                // a: function (newA, oldA) {
+                //     this.newA = newA;
+                //     this.oldA = oldA;
+                //     console.log('basic triggered');
+                // },
+                // // string
+                // a: 'aMethod',
+                // // expression
+                // 'b.c.d': function (newD, oldD) {
+                //     this.newD = newD;
+                //     this.oldD = oldD;
+                //     console.log('expression triggered');
+                // },
+                // deep
+                // b: {
+                //     handler: function (newB, oldB) {
+                //         this.newB = newB;
+                //         this.oldB = oldB;
+                //         console.log('deep triggered');
+                //     },
+                //     deep: true
+                // },
+                // // immediate
+                n: {
+                    handler: function () {
+                        // [0, 1, 2, 3..., n]
+                        this.zeroToNArr = Array.from(new Array(this.n + 1), (val, index) => index);
+                        console.log('immediate triggered');
+                    },
+                    immediate: true
+                }
+            },
+            methods: {
+                aMethod(newA, oldA) {
+                    this.newA = newA;
+                    this.oldA = oldA;
+                    console.log('string triggered');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
