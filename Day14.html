@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day14</title>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <button @click="plusA">a++</button>
+            {{a}}
+        </div>
+        <div>
+            <button @click="plusB">b++</button>
+            {{b}}
+        </div>
+    </div>
+    <br>
+    <div id="app2">{{a}}</div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                a: 1
+            },
+            computed: {
+
+            },
+            methods: {
+                plusA() {
+                    this.a += 1;
+                },
+                plusB() {
+                    this.b += 1;
+                    this.$forceUpdate();
+                }
+            },
+            created() {
+                this.b = 1;
+            }
+        });
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                a: 1
+            },
+            mounted() {
+                this.a = 2;
+                console.log(this.$el.textContent === '2');  // false
+                this.$nextTick(() => {
+                    console.log(this.$el.textContent === '2'); // true
+                })
+            }
+        });
+    </script>
+</body>
+
+</html>
