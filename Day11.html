@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day11</title>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <span style="font-size:12px;font-weight:bold">Static Style</span><br><br>
+        <span :style="inlineStyle1">Hello Style Binding</span><br><br>
+        <button @mousedown="down(1)" @mouseup="up(1)">+</button>
+        <button @mousedown="down(2)" @mouseup="up(2)">-</button><br>
+        <span :style="inlineStyle2">Hello Style Binding</span><br><br>
+        <button @click="fontSize += 1">+</button>
+        <button @click="fontSize -= 1">-</button><br>
+        <span :style="objStyle">Hello Style Binding by obj</span><br><br>
+        <span :style="[fontStyleObj, backgroundStyleObj]">Hello Style Binding by arr</span><br><br>
+        <div v-bind:style="{ display: ['', 'flex', '-ms-flexbox', '-webkit-box'] }">123</div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                inlineStyle1: "font-size:12px;font-weight:bold",
+                inlineStyle2: "font-size:12px;font-weight:bold",
+                start: 1000,
+                timer: {},
+                fontSize: 12,
+                fontWeight: 'bold',
+                fontStyleObj: {
+                    color: 'red',
+                    fontStyle: 'italic'
+                },
+                backgroundStyleObj: {
+                    background: 'blue'
+                },
+            },
+            methods: {
+                plusInlineFontSize() {
+                    let styles = this.inlineStyle2.split(';');
+                    this.inlineStyle2 = styles.map(style => this.countFontSize(style, true)).join(';');
+                },
+                minusInlineFontSize() {
+                    let styles = this.inlineStyle2.split(';');
+                    this.inlineStyle2 = styles.map(style => this.countFontSize(style, false)).join(';');
+                },
+                countFontSize(style, isPlus) {
+                    let fontSizeIndex = style.indexOf('font-size:');
+                    if (fontSizeIndex === -1) return style;
+                    let size = parseInt(style.substring(0 + 'font-size:'.length, style.indexOf('px')));
+                    size = isPlus ? ++size : --size;
+                    return `font-size:${size}px`;
+                },
+                down(type) {
+                    type == 1 ? this.plusInlineFontSize() : this.minusInlineFontSize();
+                    this.timer = setTimeout(this.down, this.start, type);
+                    this.start = this.start / 2
+                },
+                up(type) {
+                    clearTimeout(this.timer);
+                    this.start = 1000;
+                }
+
+            },
+            computed: {
+                objStyle() {
+                    return {
+                        fontSize: `${this.fontSize}px`,
+                        fontWeight: this.fontWeight
+                    };
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
