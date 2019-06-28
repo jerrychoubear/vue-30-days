@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day12</title>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <button @click="isA = !isA">toggle</button>
+        <span v-if="isA">A</span><br><br>
+        <template v-if="isA">
+            <span>output</span>
+            <span>A</span>
+        </template>
+        <span v-else>not A</span>
+    </div>
+
+    <div id="app2">
+        <span>isA : {{isA}}</span>
+        <button @click="isA = !isA">toggle A</button>
+        <span>isB : {{isB}}</span>
+        <button @click="isB = !isB">toggle B</button>
+        <template v-if="isA">
+            <span>output</span>
+            <span>A</span>
+        </template>
+        <span v-else-if="isB">show B</span>
+        <span v-else>not A and B</span>
+        <input v-if="isA" name="a" key="a">
+        <input v-else name="notA" key="sa">
+        <br><br>
+        <span v-show="isA">A</span>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                isA: true,
+                isB: !1
+            }
+        });
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                isA: true
+            }
+        });
+    </script>
+</body>
+
+</html>
