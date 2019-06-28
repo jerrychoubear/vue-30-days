@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Day9</title>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        a: {{a}}<br>
+        b: {{b}}<br>
+        aplusb: {{aplusb}}<br>
+        <button @click='a++'>a++</button>
+        <button @click='b++'>b++</button>
+    </div>
+    <br>
+    <div id="app2">
+        a: {{a}}<br>
+        b: {{b}}<br>
+        aplusb: {{aplusb}}<br>
+        <button @click='a++'>a++</button>
+        <button @click='b++'>b++</button>
+    </div>
+    <br>
+    <div id="app3">a: {{a}}<br>
+        asyncSource: {{asyncSource}}<br>
+        asyncData: {{asyncData}}</div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                a: 1,
+                b: -1
+            },
+            computed: {
+                aplusb() {
+                    return this.a + this.b;
+                }
+            }
+        });
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                a: 1,
+                b: -1,
+                aplusb: 0
+            },
+            watch: {
+                a: function (val) {
+                    this.aplusb = val + this.b;
+                },
+                b: function (val) {
+                    this.aplusb = val + this.a;
+                }
+            }
+        });
+        var vm3 = new Vue({
+            el: '#app3',
+            data: {
+                a: 1,
+                asyncSource: 1,
+                asyncData: null,
+            },
+            watch: {
+                a: function (val) {
+                    this.recordLog('a', val);
+                },
+                asyncSource: {
+                    handler: function (val) {
+                        Promise.resolve(val * 2).then((res) => {
+                            this.asyncData = res;
+                        });
+                    },
+                    immediate: true
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
